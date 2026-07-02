@@ -498,3 +498,352 @@ body::before {
 
 .story-card-inner {
   display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: var(--ink);
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+/* Header */
+.story-card-header {
+  display: flex;
+  flex-direction: column;
+  transform-style: preserve-3d;
+  margin-bottom: 18px;
+}
+
+.story-card-category-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 8px;
+}
+
+.story-cat-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.story-card-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.2vw, 1.45rem);
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 6px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.story-card-blurb {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* Media Floating 3D */
+.story-card-media-wrap {
+  width: 100%;
+  transform-style: preserve-3d;
+  margin-bottom: 22px;
+}
+
+.story-card-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #0b0e1c;
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.7);
+  transition: box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.story-card-wrapper:hover .story-card-media {
+  box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+
+.story-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.story-card-img-placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.story-card-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.28);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.story-card-wrapper:hover .story-card-play-overlay {
+  opacity: 1;
+}
+
+.story-card-play-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(12, 16, 28, 0.85);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  transform: scale(0.9);
+  transition: transform 0.25s ease;
+}
+
+.story-card-wrapper:hover .story-card-play-icon {
+  transform: scale(1);
+}
+
+/* Footer */
+.story-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  transform-style: preserve-3d;
+  margin-top: auto;
+}
+
+.story-card-link-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #cbd5e1;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.story-card-wrapper:hover .story-card-link-text {
+  color: #ffffff;
+}
+
+.story-card-link-text svg {
+  transition: transform 0.25s ease;
+}
+
+.story-card-wrapper:hover .story-card-link-text svg {
+  transform: translateX(3px);
+}
+
+.story-card-btn-wrap {
+  display: block;
+}
+
+.story-card-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  color: #080c18;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  pointer-events: auto;
+  position: relative;
+  z-index: 50;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
+}
+
+.story-card-pill-btn:hover {
+  background: #f8fafc;
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+}
+
+.story-card-pill-btn:active {
+  transform: scale(0.96);
+}
+
+/* closing stat line under the network */
+.network-footnote {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  margin-top: clamp(40px, 6vw, 70px);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.network-footnote strong { color: var(--signal); }
+
+/* ==========================================================================
+   Site footer
+   ========================================================================== */
+.site-footer {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid var(--line);
+  padding: 30px clamp(20px, 5vw, 40px) 44px;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+
+/* ==========================================================================
+   Zoom-transition overlay (index -> story)
+   ========================================================================== */
+.zoom-overlay {
+  position: fixed;
+  z-index: 999;
+  border-radius: var(--radius);
+  background: var(--signal);
+  pointer-events: none;
+  transition: all 0.62s cubic-bezier(0.65, 0, 0.35, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zoom-overlay .zoom-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bg-deep);
+  opacity: 0;
+  transition: opacity 0.25s ease 0.25s;
+}
+
+.zoom-overlay.expand .zoom-label { opacity: 1; }
+
+body.transitioning .topbar,
+body.transitioning .hero,
+body.transitioning .network,
+body.transitioning .site-footer {
+  transition: opacity 0.35s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Responsive — Mobile-first comprehensive system
+   Breakpoints:
+     xs  < 480px   (small phones, iPhone SE)
+     sm  480–767px (large phones)
+     md  768–1023px (tablets)
+     lg  1024–1179px (large tablets, small laptops)
+     xl  ≥ 1180px  (desktop) ← default layout
+   ========================================================================== */
+
+/* ── Tablet (768px–1023px) ──────────────────────────────────────────────── */
+@media (max-width: 1023px) {
+  /* Topbar */
+  .topbar {
+    padding: 20px clamp(16px, 4vw, 32px) 0;
+  }
+
+  /* Hero */
+  .hero {
+    gap: clamp(28px, 5vh, 56px);
+  }
+
+  .nestled-accent {
+    margin-left: 28%;
+  }
+
+  /* Network */
+  .network {
+    padding: 10px clamp(12px, 4vw, 32px) 48px;
+  }
+
+  /* Story rows — 2 col but tighter */
+  .story-row {
+    gap: clamp(12px, 3vw, 28px);
+  }
+
+  /* Story card padding */
+  .story-box.story-card-3d-body {
+    padding: 20px 20px 18px;
+  }
+
+  /* Modal */
+  .modal-scroll-body {
+    padding: 20px 22px 30px;
+  }
+}
+
+/* ── Mobile Large (480px–767px) ─────────────────────────────────────────── */
+@media (max-width: 767px) {
+  /* Kill 3D tilt on touch — tilt is disorienting on mobile */
+  .card-3d-perspective {
+    perspective: none;
+  }
+
+  /* Hero */
+  .hero {
+    padding: clamp(28px, 5vh, 52px) clamp(16px, 5vw, 28px) clamp(40px, 8vh, 80px);
+    gap: clamp(20px, 4vh, 40px);
+    text-align: center;
+  }
+
+  .hero-eyebrow {
+    align-self: flex-start;
+  }
+
+  .hero-inner-wrap {
+    align-items: center;
+  }
+
+  .nestled-accent {
+    /* Agar tidak overflow ke kanan di HP */
+    margin-left: 20%;
+    font-size: clamp(2.2rem, 9vw, 3.6rem);
+  }
+
+  .nestled-main {
+    font-size: clamp(3.4rem, 14vw, 6rem);
+  }
+
+  .subscript-row {
+    margin-left: 8%;
+  }
+
+  .hero-lede {
+    max-width: 290px;
+    white-space: normal;
+    font-size: clamp(11px, 2.9vw, 12.5px);
+    line-height: 1.45;
+  }
+
+  /* Network — mobile: margin-top positif karena hero lebih pendek */
+  .network-pull-wrap {
+    margin-top: clamp(20px, 4vh, 60px);
+  }
