@@ -1,0 +1,93 @@
+/* Next.js App Router override — ensure dark bg wins */
+html {
+  background: #12172b;
+  color-scheme: dark;
+}
+/* ==========================================================================
+   THE GREY MATTER â€” design tokens
+   ========================================================================== */
+:root {
+  --bg: #12172b;
+  --bg-deep: #0b0e1c;
+  --bg-soft: #1a2140;
+  --ink: #f3eee3;
+  --ink-dim: #b9bdd1;
+  --ink-faint: #7d829c;
+  --signal: #ff6b4a;
+  --line: rgba(243, 238, 227, 0.1);
+  --line-strong: rgba(243, 238, 227, 0.22);
+
+  --font-display: "Inter", -apple-system, sans-serif;
+  --font-script: "Alex Brush", cursive;
+  --font-body: "Inter", -apple-system, sans-serif;
+  --font-mono: "Geist Mono", "IBM Plex Mono", ui-monospace, monospace;
+
+  --container: 1180px;
+  --radius: 20px;
+}
+
+* { box-sizing: border-box; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a { color: inherit; }
+
+::selection { background: var(--signal); color: var(--bg-deep); }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* subtle noise/vignette so the flat navy never looks like a plain fill */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 900px 500px at 50% -5%, rgba(255, 107, 74, 0.10), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 90% 30%, rgba(47, 165, 160, 0.08), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 5% 70%, rgba(139, 126, 200, 0.08), transparent 60%);
+}
+
+/* ==========================================================================
+   Top bar
+   ========================================================================== */
+.topbar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 28px clamp(20px, 5vw, 40px) 0;
+}
+
+.wordmark {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.wordmark strong { color: var(--ink); }
+
+/* ==========================================================================
+   Page root — satu container tunggal berisi WebThreads + semua konten
+   ========================================================================== */
