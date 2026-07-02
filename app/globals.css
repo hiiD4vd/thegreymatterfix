@@ -291,3 +291,210 @@ body::before {
   letter-spacing: 0.015em;
   opacity: 0.82;
 }
+
+.scroll-cue {
+  margin-bottom: clamp(24px, 5vh, 48px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  pointer-events: auto; /* tetap interaktif */
+  transform: translateY(-40px);
+}
+
+.scroll-cue svg { animation: bob 2s ease-in-out infinite; }
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* ==========================================================================
+   Network section (brain + paths + story boxes)
+   ========================================================================== */
+.network-pull-wrap {
+  pointer-events: auto;
+  margin-top: clamp(-160px, -17vh, -200px);
+}
+
+
+.network {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 20px clamp(16px, 5vw, 40px) 60px;
+}
+
+.network-inner {
+  position: relative;
+}
+
+#paths-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#paths-svg path.line {
+  fill: none;
+  stroke: var(--signal);
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0.55;
+  transition: stroke-dashoffset 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mascot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  z-index: 3;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+.mascot .dot {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 0 4px rgba(255, 107, 74, 0.18), 0 0 18px rgba(255, 107, 74, 0.7);
+  animation: mascot-pulse 1.1s ease-in-out infinite;
+}
+
+@keyframes mascot-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.72); }
+}
+
+/* Brain hub */
+.brain-hub {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto 10px;
+  width: fit-content;
+}
+
+.brain-hub svg { width: clamp(120px, 22vw, 190px); height: auto; }
+
+.brain-hub .brain-fill { fill: #d9847a; }
+.brain-hub .brain-shade { fill: #c56a5e; }
+.brain-hub .brain-line { stroke: var(--bg-deep); stroke-width: 5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+.brain-hub .hub-label {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  background: rgba(18, 23, 43, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 4px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  position: relative;
+  z-index: 3;
+}
+
+/* Rows of story boxes â€” stacked, gently zig-zagged */
+.story-rows {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(30px, 5vw, 46px);
+  margin-top: clamp(170px, 16vw, 240px);
+}
+
+.story-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(16px, 4vw, 40px);
+}
+
+/* ==========================================================================
+   3D Story Card (Inspira UI / Aceternity 3D Perspective Card)
+   ========================================================================== */
+.card-3d-perspective {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  width: 100%;
+}
+
+.card-3d-container {
+  transform-style: preserve-3d;
+  width: 100%;
+}
+
+.card-3d-body {
+  transform-style: preserve-3d;
+  width: 100%;
+}
+
+.card-3d-item {
+  transform-style: preserve-3d;
+  display: block;
+}
+
+.story-card-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.story-card-3d-wrap {
+  width: 100%;
+}
+
+.story-box.story-card-3d-body {
+  --box-color: var(--signal);
+  position: relative;
+  display: block;
+  width: 100%;
+  background: #080c18;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 24px 24px 22px;
+  box-shadow: 0 12px 36px -10px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform-style: preserve-3d;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.story-box.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.story-row:nth-child(even) .story-box:first-child { margin-top: 34px; }
+.story-row:nth-child(odd) .story-box:last-child { margin-top: 34px; }
+
+.story-card-wrapper:hover .story-box.story-card-3d-body {
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.85), 0 0 25px -5px var(--box-color);
+}
+
+.story-card-inner {
+  display: flex;
