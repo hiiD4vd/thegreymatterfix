@@ -1898,3 +1898,287 @@ body.transitioning .site-footer {
 }
 
 .modal-poster-fallback {
+  width: 100%;
+  height: 100%;
+}
+
+.modal-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, rgba(0,0,0,0.15), rgba(0,0,0,0.7));
+}
+
+.modal-play-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(10, 14, 26, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 10px 22px 10px 12px;
+  border-radius: 9999px;
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  transition: all 0.25s ease;
+}
+
+.modal-play-pill:hover {
+  transform: scale(1.05);
+  background: rgba(16, 22, 40, 0.95);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.modal-play-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-narrative-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-section-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.modal-narrative-text {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #cbd5e1;
+  margin: 0;
+}
+
+.modal-insights-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.modal-insight-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 16px 18px;
+}
+
+.insight-tag {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 4px;
+}
+
+.insight-heading {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.insight-details {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.modal-bottom-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modal-nav-btn {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 12px 18px;
+  color: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.modal-nav-next {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.btn-dir {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin-bottom: 2px;
+}
+
+.btn-category {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   True FLIP Full-Screen Morphing Expanded Card
+   ========================================================================== */
+.morph-card-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99998;
+  background: rgba(3, 5, 12, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: pointer;
+}
+
+.morph-expanded-card {
+  position: fixed;
+  background: #060913 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 35px 100px -20px rgba(0, 0, 0, 0.95), 0 0 50px -10px var(--story-color);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  will-change: top, left, width, height, border-radius;
+  z-index: 99999 !important;
+}
+
+.morph-scroll-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  -webkit-overflow-scrolling: touch;
+}
+
+.morph-header-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px clamp(16px, 4vw, 40px);
+  background: rgba(7, 10, 20, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.morph-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 7px 15px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.morph-back-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateX(-2px);
+}
+
+.morph-close-btn-header {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.morph-close-btn-header:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.08);
+}
+
+.morph-media-frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  will-change: height;
+  background: #020408;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.morph-media-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.morph-content-body {
+  position: relative;
+  z-index: 1;
+  max-width: 920px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 36px clamp(16px, 4vw, 36px) 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}

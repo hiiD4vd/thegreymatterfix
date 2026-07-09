@@ -1,32 +1,46 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 
-const WebThreads = dynamic(() => import("./WebThreads"), {
-  ssr: false,
-  loading: () => null,
-});
+const WebThreads = dynamic(() => import("./WebThreads"), { ssr: false });
 
 export default function WebThreadsWrapper() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
-    <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100vh", pointerEvents: "none", zIndex: 0 }}>
+    <div
+      aria-hidden="true"
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        zIndex: 0,
+        background: "#12172b",
+        pointerEvents: "none",
+        overflow: "hidden",
+        WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 60%, transparent 100%)",
+        maskImage: "linear-gradient(to bottom, black 0%, black 60%, transparent 100%)"
+      }}
+    >
       <WebThreads
-        color1="#2fa5a0"
-        color2="#8b7ec8"
-        color3="#ff6b4a"
+        color1="#E8A33D"
+        color2="#ffd166"
+        color3="#fff8e0"
         backgroundColor="#12172b"
         threadCount={6}
         speed={0.18}
-        frequency={isMobile ? 3.5 : 4.5}
+        frequency={isMobile ? 3.5 : 3.8}
         spread={isMobile ? 0.12 : 0.22}
         taper={isMobile ? 0.6 : 1.0}
         position={0.32}
