@@ -10,14 +10,20 @@ export const metadata = {
 export default function HomePage() {
   return (
     <main className="page-root">
-      {/* WebThreads: absolute, hanya cover 100vh teratas, tidak bikin container baru */}
+      {/* WebThreads: absolute, hanya cover 100vh teratas */}
       <WebThreadsWrapper />
 
-      {/* Semua konten flow normal dalam satu container */}
-      <HeroSection />
-      <StoryNetwork />
+      {/* Konten: mengapung di atas WebGL */}
+      <div style={{ position: "relative", zIndex: 10, pointerEvents: "none" }}>
+        <HeroSection />
 
-      <footer className="site-footer">
+        {/* Otak & Kartu: mengalir setelah hero, ditarik ke atas pakai margin-top negatif (desktop) */}
+        <div className="network-pull-wrap">
+          <StoryNetwork />
+        </div>
+      </div>
+
+      <footer className="site-footer" style={{ pointerEvents: "auto", position: "relative", zIndex: 10 }}>
         The Grey Matter - a short-film series on the everyday brain.
       </footer>
     </main>
