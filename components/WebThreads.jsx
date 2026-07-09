@@ -293,7 +293,7 @@ const WebThreads = ({
           premultipliedAlpha: true,
           antialias: false,
           powerPreference: "high-performance",
-          dpr: Math.min(window.devicePixelRatio, 2),
+          dpr: 1,
         });
         gl = renderer.gl;
       } catch (err) {
