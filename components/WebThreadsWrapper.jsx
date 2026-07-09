@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 
 const WebThreads = dynamic(() => import("./WebThreads"), {
@@ -7,6 +8,15 @@ const WebThreads = dynamic(() => import("./WebThreads"), {
 });
 
 export default function WebThreadsWrapper() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   return (
     <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100vh", pointerEvents: "none", zIndex: 0 }}>
       <WebThreads
@@ -16,9 +26,9 @@ export default function WebThreadsWrapper() {
         backgroundColor="#12172b"
         threadCount={6}
         speed={0.18}
-        frequency={4.5}
-        spread={0.22}
-        taper={1.0}
+        frequency={isMobile ? 3.5 : 4.5}
+        spread={isMobile ? 0.12 : 0.22}
+        taper={isMobile ? 0.6 : 1.0}
         position={0.32}
         fanMode="center"
         glow={0.03}
@@ -30,7 +40,7 @@ export default function WebThreadsWrapper() {
         shimmer={true}
         grain={false}
         grainIntensity={0}
-        mouseInteraction={true}
+        mouseInteraction={!isMobile}
         mouseStrength={0.35}
       />
     </div>
