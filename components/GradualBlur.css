@@ -4,20 +4,15 @@
   height: 100%;
 }
 
-.gradual-blur-inner > div {
-  -webkit-backdrop-filter: inherit;
-  backdrop-filter: inherit;
+.gradual-blur-page {
+  /* Gradien dasar halus agar efek kabut / fade out di mobile terlihat nyata dan mewah */
+  background: linear-gradient(to bottom, transparent 0%, rgba(18, 23, 43, 0.45) 40%, rgba(18, 23, 43, 0.95) 100%);
+  pointer-events: none !important;
 }
 
 .gradual-blur {
   isolation: isolate;
-}
-
-@supports not (backdrop-filter: blur(1px)) {
-  .gradual-blur-inner > div {
-    background: rgba(0, 0, 0, 0.3);
-    opacity: 0.5;
-  }
+  pointer-events: none !important;
 }
 
 .gradual-blur-fixed {
@@ -28,4 +23,14 @@
   bottom: 0;
   pointer-events: none;
   z-index: 1000;
+}
+
+/* Matikan efek blur bawah di layar desktop agar GPU 60fps mulus tanpa lag */
+@media (min-width: 769px) {
+  .gradual-blur,
+  .gradual-blur-page,
+  .gradual-blur-parent,
+  .gradual-blur-fixed {
+    display: none !important;
+  }
 }
