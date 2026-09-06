@@ -276,8 +276,36 @@ export default function MorphingExpandedCard({ story, originRect, onClose, onSel
           {/* Unfolding Content Details */}
           <div className="morph-content-body" ref={contentRef}>
             <div className="modal-title-area">
-              <h2 className="modal-story-title">{story.title}</h2>
-              <p className="modal-story-lede">{story.blurb}</p>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 12 }}>
+                <div>
+                  <h2 className="modal-story-title">{story.title}</h2>
+                  <p className="modal-story-lede">{story.blurb}</p>
+                </div>
+                <a
+                  href={`/story/${encodeURIComponent(story.id)}`}
+                  className="modal-standalone-link"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    padding: "8px 16px",
+                    borderRadius: 20,
+                    background: "rgba(255, 255, 255, 0.08)",
+                    border: "1px solid rgba(255, 255, 255, 0.16)",
+                    color: "var(--ink)",
+                    fontSize: 12,
+                    fontFamily: "var(--font-mono)",
+                    textDecoration: "none",
+                    whiteSpace: "nowrap",
+                    transition: "all 0.2s ease",
+                  }}
+                >
+                  <span>Dedicated Page</span>
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                    <path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </a>
+              </div>
             </div>
 
             <div className="modal-narrative-section">
