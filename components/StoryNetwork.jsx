@@ -69,8 +69,9 @@ export default function StoryNetwork({ paperCards = false }) {
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         path.setAttribute("d", d);
         path.setAttribute("class", "line");
-        const color = box.style.getPropertyValue("--box-color") || "var(--signal)";
-        path.style.stroke = color;
+        const boxColor = box.style.getPropertyValue("--box-color") || "#ffd166";
+        path.style.stroke = "#ffd166"; // Unified golden amber spinal cord
+        path._boxColor = boxColor;
         svg.appendChild(path);
 
         const length = path.getTotalLength();
@@ -155,7 +156,10 @@ export default function StoryNetwork({ paperCards = false }) {
         const pt = current.el.getPointAtLength(len);
         mascot.style.transform = `translate(${pt.x}px, ${pt.y}px) translate(-50%, -50%)`;
         const dotEl = mascot.querySelector(".dot");
-        if (dotEl) dotEl.style.background = current.el.style.stroke || "var(--signal)";
+        if (dotEl) {
+          dotEl.style.background = "#ff3b30";
+          dotEl.style.boxShadow = "0 0 0 3px rgba(255, 59, 48, 0.3), 0 0 16px #ff3b30, 0 0 28px rgba(255, 59, 48, 0.7)";
+        }
 
         rafId = requestAnimationFrame(frame);
       }
@@ -249,9 +253,10 @@ export default function StoryNetwork({ paperCards = false }) {
         }
 
         ctx.lineCap = "round"; ctx.lineJoin = "round";
-        tracePath(); ctx.strokeStyle = hexToRgba(color, 0.12); ctx.lineWidth = isMobile ? 8 : 14; ctx.shadowBlur = isMobile ? 14 : 24; ctx.shadowColor = color; ctx.stroke();
-        tracePath(); ctx.strokeStyle = hexToRgba(color, 0.35); ctx.lineWidth = isMobile ? 3.2 : 5; ctx.shadowBlur = isMobile ? 6 : 10; ctx.shadowColor = color; ctx.stroke();
-        tracePath(); ctx.strokeStyle = hexToRgba(color, 0.95); ctx.lineWidth = isMobile ? 1.1 : 1.5; ctx.shadowBlur = 4; ctx.shadowColor = color; ctx.stroke();
+        // Spinal Cord: 3-tier golden amber bioluminescent glow
+        tracePath(); ctx.strokeStyle = "rgba(232, 163, 61, 0.18)"; ctx.lineWidth = isMobile ? 8 : 14; ctx.shadowBlur = isMobile ? 14 : 24; ctx.shadowColor = "#E8A33D"; ctx.stroke();
+        tracePath(); ctx.strokeStyle = "rgba(255, 209, 102, 0.45)"; ctx.lineWidth = isMobile ? 3.4 : 5.2; ctx.shadowBlur = isMobile ? 6 : 11; ctx.shadowColor = "#ffd166"; ctx.stroke();
+        tracePath(); ctx.strokeStyle = "rgba(255, 253, 240, 0.95)"; ctx.lineWidth = isMobile ? 1.2 : 1.6; ctx.shadowBlur = 4; ctx.shadowColor = "#fff8e0"; ctx.stroke();
         ctx.shadowBlur = 0;
       }
 
@@ -265,31 +270,69 @@ export default function StoryNetwork({ paperCards = false }) {
         const dpr = window.devicePixelRatio || 1;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.clearRect(0, 0, cssW, cssH);
+
+        // 1. Central Spinal Cord Trunk (Batang sumsum tulang belakang utama di bawah otak)
+        if (paths.length > 0 && paths[0]._junctionPt && paths[0]._rootPt) {
+          const isMobile = cssW < 768;
+          const rpt = paths[0]._rootPt;
+          const jpt = paths[0]._junctionPt;
+
+          // Outer ambient spinal aura
+          ctx.beginPath();
+          ctx.moveTo(rpt.x, rpt.y);
+          ctx.lineTo(jpt.x, jpt.y);
+          ctx.strokeStyle = "rgba(232, 163, 61, 0.35)";
+          ctx.lineWidth = isMobile ? 10 : 16;
+          ctx.shadowBlur = isMobile ? 16 : 24;
+          ctx.shadowColor = "#E8A33D";
+          ctx.stroke();
+
+          // Mid golden spinal cord
+          ctx.beginPath();
+          ctx.moveTo(rpt.x, rpt.y);
+          ctx.lineTo(jpt.x, jpt.y);
+          ctx.strokeStyle = "rgba(255, 209, 102, 0.85)";
+          ctx.lineWidth = isMobile ? 4.8 : 7.2;
+          ctx.shadowBlur = isMobile ? 8 : 14;
+          ctx.shadowColor = "#ffd166";
+          ctx.stroke();
+
+          // Hot white spinal core
+          ctx.beginPath();
+          ctx.moveTo(rpt.x, rpt.y);
+          ctx.lineTo(jpt.x, jpt.y);
+          ctx.strokeStyle = "rgba(255, 255, 245, 0.98)";
+          ctx.lineWidth = isMobile ? 2.0 : 2.8;
+          ctx.shadowBlur = 4;
+          ctx.shadowColor = "#ffffff";
+          ctx.stroke();
+        }
+
+        // 2. Cabang saraf spinal menuju tiap kartu (Spinal Branches)
         paths.forEach((pathEl, i) => {
-          const color = pathEl.style.stroke || "#ffd166";
-          drawBeam(pathEl, i * 1.7, color, t2);
+          drawBeam(pathEl, i * 1.7, "#ffd166", t2);
         });
 
-        // Gambar titik simpul neural (junction node) di pertemuan cabang persis seperti di gambar referensi
+        // 3. Titik simpul percabangan (junction node)
         if (paths.length > 0 && paths[0]._junctionPt) {
           const isMobile = cssW < 768;
           const jpt = paths[0]._junctionPt;
           const rpt = paths[0]._rootPt;
 
-          // Titik simpul percabangan (junction node)
+          // Junction node (pertemuan cabang)
           ctx.beginPath();
-          ctx.arc(jpt.x, jpt.y, isMobile ? 3.5 : 4.5, 0, Math.PI * 2);
-          ctx.fillStyle = "#fff8e0";
-          ctx.shadowBlur = isMobile ? 8 : 14;
+          ctx.arc(jpt.x, jpt.y, isMobile ? 4.5 : 6.0, 0, Math.PI * 2);
+          ctx.fillStyle = "#ffffff";
+          ctx.shadowBlur = isMobile ? 12 : 18;
           ctx.shadowColor = "#ffd166";
           ctx.fill();
 
-          // Titik pangkal keluar otak (root node)
+          // Root node (pangkal keluar dari otak)
           if (rpt) {
             ctx.beginPath();
-            ctx.arc(rpt.x, rpt.y, isMobile ? 2.5 : 3.5, 0, Math.PI * 2);
+            ctx.arc(rpt.x, rpt.y, isMobile ? 3.5 : 4.5, 0, Math.PI * 2);
             ctx.fillStyle = "#ffd166";
-            ctx.shadowBlur = 6;
+            ctx.shadowBlur = 8;
             ctx.shadowColor = "#E8A33D";
             ctx.fill();
           }

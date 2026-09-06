@@ -72,7 +72,7 @@ export default function StoryNetworkWebGL({ paperCards = false }) {
         const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
         path.setAttribute("d", d);
         path.setAttribute("class", "line");
-        const color = box.style.getPropertyValue("--box-color") || "#ffd166";
+        const color = "#ffd166";
         path.style.stroke = color;
         svg.appendChild(path);
 
@@ -275,33 +275,68 @@ export default function StoryNetworkWebGL({ paperCards = false }) {
         ctx.clearRect(0, 0, cssW, cssH);
 
         // KUNCI UTAMA: Additive Blending ("lighter")
-        // Ini teknologi rendering pencampuran cahaya fisik yang sama persis dengan WebGL additive shader!
         ctx.globalCompositeOperation = "lighter";
 
+        // 1. Central Spinal Cord Trunk (Batang utama sumsum tulang belakang di bawah otak)
+        if (paths.length > 0 && paths[0]._junctionPt && paths[0]._rootPt) {
+          const rpt = paths[0]._rootPt;
+          const jpt = paths[0]._junctionPt;
+
+          // Outer ambient spinal aura
+          ctx.beginPath();
+          ctx.moveTo(rpt.x, rpt.y);
+          ctx.lineTo(jpt.x, jpt.y);
+          ctx.strokeStyle = "rgba(232, 163, 61, 0.40)";
+          ctx.lineWidth = isMobile ? 8 : 14;
+          ctx.shadowBlur = isMobile ? 14 : 24;
+          ctx.shadowColor = "#E8A33D";
+          ctx.stroke();
+
+          // Mid golden trunk
+          ctx.beginPath();
+          ctx.moveTo(rpt.x, rpt.y);
+          ctx.lineTo(jpt.x, jpt.y);
+          ctx.strokeStyle = "rgba(255, 209, 102, 0.85)";
+          ctx.lineWidth = isMobile ? 4.2 : 6.8;
+          ctx.shadowBlur = isMobile ? 8 : 14;
+          ctx.shadowColor = "#ffd166";
+          ctx.stroke();
+
+          // Core hot white spine
+          ctx.beginPath();
+          ctx.moveTo(rpt.x, rpt.y);
+          ctx.lineTo(jpt.x, jpt.y);
+          ctx.strokeStyle = "rgba(255, 255, 245, 0.98)";
+          ctx.lineWidth = isMobile ? 1.8 : 2.5;
+          ctx.shadowBlur = 4;
+          ctx.shadowColor = "#ffffff";
+          ctx.stroke();
+        }
+
+        // 2. Cabang saraf spinal
         paths.forEach((pathEl, i) => {
-          const color = pathEl.style.stroke || "#ffd166";
-          drawSingleLuminousBeam(pathEl, i * 1.75, color, t, i);
+          drawSingleLuminousBeam(pathEl, i * 1.75, "#ffd166", t, i);
         });
 
-        // Gambar titik simpul neural (junction node) di pertemuan cabang persis seperti di gambar referensi
+        // 3. Titik simpul percabangan (junction node)
         if (paths.length > 0 && paths[0]._junctionPt) {
           const jpt = paths[0]._junctionPt;
           const rpt = paths[0]._rootPt;
 
           // Titik simpul percabangan (junction node)
           ctx.beginPath();
-          ctx.arc(jpt.x, jpt.y, isMobile ? 3.5 : 4.5, 0, Math.PI * 2);
+          ctx.arc(jpt.x, jpt.y, isMobile ? 4.5 : 6.0, 0, Math.PI * 2);
           ctx.fillStyle = "#ffffff";
-          ctx.shadowBlur = isMobile ? 8 : 14;
+          ctx.shadowBlur = isMobile ? 10 : 16;
           ctx.shadowColor = "#ffd166";
           ctx.fill();
 
           // Titik pangkal keluar otak (root node)
           if (rpt) {
             ctx.beginPath();
-            ctx.arc(rpt.x, rpt.y, isMobile ? 2.5 : 3.5, 0, Math.PI * 2);
+            ctx.arc(rpt.x, rpt.y, isMobile ? 3.0 : 4.0, 0, Math.PI * 2);
             ctx.fillStyle = "#ffd166";
-            ctx.shadowBlur = 6;
+            ctx.shadowBlur = 8;
             ctx.shadowColor = "#E8A33D";
             ctx.fill();
           }
