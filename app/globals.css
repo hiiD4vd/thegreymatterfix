@@ -809,9 +809,15 @@ body.transitioning .site-footer {
 
   /* Hero */
   .hero {
-    padding: clamp(28px, 5vh, 52px) clamp(16px, 5vw, 28px) clamp(40px, 8vh, 80px);
-    gap: clamp(20px, 4vh, 40px);
+    padding: clamp(38px, 5.5vh, 52px) clamp(16px, 4vw, 24px) 10px;
+    gap: 12px;
     text-align: center;
+  }
+
+  .scroll-cue {
+    transform: none;
+    margin-bottom: 4px;
+    gap: 6px;
   }
 
   .hero-eyebrow {
@@ -843,44 +849,64 @@ body.transitioning .site-footer {
     line-height: 1.45;
   }
 
-  /* Network — mobile: margin-top positif karena hero lebih pendek */
+  /* Network — mobile: diturunkan proporsional agar teks hero di atas menjadi header yang bernapas lega dengan whitespace mewah */
   .network-pull-wrap {
-    margin-top: clamp(20px, 4vh, 60px);
+    margin-top: clamp(52px, 7.5vh, 72px);
   }
 
   .network {
-    padding: 8px clamp(12px, 4vw, 24px) 40px;
+    padding: 0 clamp(16px, 4vw, 24px) 44px;
   }
 
   /* Brain hub */
   .brain-hub svg {
-    width: clamp(90px, 18vw, 140px);
+    width: clamp(96px, 22vw, 130px);
   }
 
-  /* Story rows — diturunkan jauh lebih lega di bawah otak & satu kolom di mobile */
+  /* Story rows — diturunkan proporsional di bawah otak */
   .story-rows {
-    margin-top: clamp(110px, 25vw, 180px);
+    margin-top: clamp(70px, 16vw, 110px);
   }
 
   .story-row {
     grid-template-columns: 1fr;
-    gap: clamp(16px, 4vw, 24px);
+    gap: clamp(16px, 4vw, 22px);
+    width: 100%;
   }
 
-  /* Hapus zigzag offset — tidak berguna di satu kolom */
+  /* Hapus zigzag margin yang merusak responsivitas di mobile */
   .story-row:nth-child(even) .story-box:first-child,
-  .story-row:nth-child(odd) .story-box:last-child {
-    margin-top: 0;
+  .story-row:nth-child(odd) .story-box:last-child,
+  .story-row .story-box:nth-child(1),
+  .story-row .story-box:nth-child(2) {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
-
-  /* Zigzag alternatif: kartu ganjil ke kiri sedikit, genap ke kanan */
-  .story-row .story-box:nth-child(1) { margin-right: 8%; margin-left: 0; }
-  .story-row .story-box:nth-child(2) { margin-left: 8%; margin-right: 0; }
 
   /* Story card */
   .story-box.story-card-3d-body {
-    padding: 18px 18px 16px;
+    padding: 16px 16px 14px;
     border-radius: 18px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .story-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .story-card-pill-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-size: 12px;
+    padding: 7px 16px;
   }
 
   .story-card-title {
@@ -1005,18 +1031,18 @@ body.transitioning .site-footer {
     margin-left: 0;
   }
 
-  /* Network — small mobile: sedikit lebih kecil */
+  /* Network — small mobile: diturunkan proporsional */
   .network-pull-wrap {
-    margin-top: clamp(10px, 2vh, 40px);
+    margin-top: clamp(42px, 6.5vh, 60px);
   }
 
   .story-rows {
-    margin-top: clamp(100px, 22vw, 160px);
+    margin-top: clamp(60px, 16vw, 90px);
   }
 
   /* Scroll cue */
   .scroll-cue {
-    margin-bottom: clamp(16px, 4vh, 32px);
+    margin-bottom: 4px;
   }
 
   /* Network footnote */
