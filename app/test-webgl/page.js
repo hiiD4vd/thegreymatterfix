@@ -1,34 +1,29 @@
 "use client";
 
 import WebThreadsWrapper from "@/components/WebThreadsWrapper";
-import StoryNetworkWebGL from "@/components/StoryNetworkWebGL"; 
-import HeroSection from "@/components/HeroSection"; // Memasukkan judul & teks
+import StoryNetwork from "@/components/StoryNetwork"; 
+import HeroSection from "@/components/HeroSection";
 
 export default function TestWebGLPage() {
   return (
-    <main style={{ 
-      width: "100%", 
-      backgroundColor: "#12172b", // Biru navy polos
-      position: "relative"
-    }}>
-      
-      {/* WebThreads: responsive wrapper (desktop 0.32, mobile dinaikkan ke pusat otak) */}
+    <main className="page-root">
       <WebThreadsWrapper />
 
-      {/* Layer Teks Hero & Konten: Mengapung di atas WebGL (z-index lebih tinggi) */}
       <div style={{ 
         position: "relative",
         zIndex: 10,
-        pointerEvents: "none" // Biarkan mouse tembus ke canvas WebGL di area kosong
+        pointerEvents: "none"
       }}>
         <HeroSection />
         
-        {/* Layer Konten Bawah (Otak & Kartu) ditarik ke atas di desktop, diturunkan di mobile via CSS */}
         <div className="network-pull-wrap">
-          <StoryNetworkWebGL />
+          <StoryNetwork />
         </div>
       </div>
 
+      <footer className="site-footer" style={{ pointerEvents: "auto", position: "relative", zIndex: 10 }}>
+        The Grey Matter - a short-film series on the everyday brain (Backup Network).
+      </footer>
     </main>
   );
 }

@@ -1,4 +1,4 @@
-import StoryNetwork from "@/components/StoryNetwork";
+import StoryNetworkWebGL from "@/components/StoryNetworkWebGL";
 import WebThreadsWrapper from "@/components/WebThreadsWrapper";
 import HeroSection from "@/components/HeroSection";
 
@@ -19,7 +19,7 @@ export default function HomePage() {
 
         {/* Otak & Kartu: mengalir setelah hero, ditarik ke atas pakai margin-top negatif (desktop) */}
         <div className="network-pull-wrap">
-          <StoryNetwork />
+          <StoryNetworkWebGL />
         </div>
       </div>
 
