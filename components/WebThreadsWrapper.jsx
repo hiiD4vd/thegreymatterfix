@@ -5,15 +5,91 @@ import dynamic from "next/dynamic";
 const WebThreads = dynamic(() => import("./WebThreads"), { ssr: false });
 
 export default function WebThreadsWrapper() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth <= 768;
+    }
+    return false;
+  });
+
+  // Default initial position:
+  // Desktop: 0.32 (sesuai hero desktop yang tinggi & ditarik ke atas)
+  // Mobile: 0.70 (baseline akurat posisi otak di layar HP)
+  const [position, setPosition] = useState(() => {
+    if (typeof window !== "undefined") {
+      const mobile = window.innerWidth <= 768;
+      if (!mobile) return 0.32;
+      const h = window.innerHeight || 800;
+      return h >= 900 ? 0.71 : (h >= 750 ? 0.69 : 0.64);
+    }
+    return 0.32;
+  });
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
+    const measureAnchor = () => {
+      if (typeof window === "undefined") return;
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+
+      // DESKTOP: Selalu 100% terkunci di 0.32 (tidak disentuh sama sekali)
+      if (!mobile) {
+        setPosition(0.32);
+        return;
+      }
+
+      // MOBILE & TABLET: Cari elemen otak (#brain-anchor) dan hitung titik tengahnya
+      const anchor = document.getElementById("brain-anchor");
+      const h = window.innerHeight;
+
+      if (anchor && h > 0) {
+        const rect = anchor.getBoundingClientRect();
+        // Pastikan elemen sudah ter-render dengan tinggi valid (> 10px)
+        if (rect.height > 10) {
+          const brainCenterDocY = rect.top + window.scrollY + rect.height / 2;
+          const pos = 1.0 - (brainCenterDocY / h);
+          // Batasi rentang wajar mobile (0.45 - 0.85)
+          const clampedPos = Math.max(0.45, Math.min(0.85, pos));
+          setPosition(Number(clampedPos.toFixed(4)));
+          return;
+        }
+      }
+
+      // Fallback prediktif berbasis tinggi viewport jika anchor belum siap
+      if (h > 0) {
+        const fallbackPos = h >= 900 ? 0.71 : (h >= 750 ? 0.69 : 0.64);
+        setPosition(fallbackPos);
+      }
     };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+
+    // Jalankan segera
+    measureAnchor();
+
+    // Polling berulang saat halaman pertama kali mount untuk antisipasi font / layout shift
+    const intervalId = setInterval(measureAnchor, 80);
+    const stopIntervalTimer = setTimeout(() => clearInterval(intervalId), 2500);
+
+    if (typeof document !== "undefined" && document.fonts?.ready) {
+      document.fonts.ready.then(measureAnchor);
+    }
+
+    window.addEventListener("resize", measureAnchor);
+    window.addEventListener("orientationchange", measureAnchor);
+
+    let ro = null;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(measureAnchor);
+      ro.observe(document.body);
+      const anchor = document.getElementById("brain-anchor");
+      if (anchor) ro.observe(anchor);
+    }
+
+    return () => {
+      clearInterval(intervalId);
+      clearTimeout(stopIntervalTimer);
+      window.removeEventListener("resize", measureAnchor);
+      window.removeEventListener("orientationchange", measureAnchor);
+      if (ro) ro.disconnect();
+    };
   }, []);
 
   return (
@@ -40,12 +116,12 @@ export default function WebThreadsWrapper() {
         backgroundColor="#12172b"
         threadCount={6}
         speed={0.18}
-        frequency={isMobile ? 3.5 : 3.8}
-        spread={isMobile ? 0.12 : 0.22}
-        taper={isMobile ? 0.6 : 1.0}
-        position={0.32}
+        frequency={isMobile ? 3.6 : 3.8}
+        spread={isMobile ? 0.18 : 0.22}
+        taper={isMobile ? 0.85 : 1.0}
+        position={position}
         fanMode="center"
-        glow={0.03}
+        glow={isMobile ? 0.035 : 0.03}
         falloff={0.55}
         thickness={1.0}
         brightness={0.6}

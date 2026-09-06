@@ -76,8 +76,8 @@ void main() {
   // Garis dibuat lebih datar dan tidak melonjak tinggi menusuk teks di mobile.
   // Di desktop (aspect >= 1.0), kedua skala ini bernilai 1.0 sehingga desktop 100% tidak berubah.
   float aspect = iResolution.x / max(iResolution.y, 1.0);
-  float mobileFlatScale = aspect < 1.0 ? mix(0.36, 1.0, clamp((aspect - 0.35) / 0.65, 0.0, 1.0)) : 1.0;
-  float mobileFreqScale = aspect < 1.0 ? mix(0.72, 1.0, clamp((aspect - 0.35) / 0.65, 0.0, 1.0)) : 1.0;
+  float mobileFlatScale = aspect < 1.0 ? mix(0.70, 1.0, clamp((aspect - 0.35) / 0.65, 0.0, 1.0)) : 1.0;
+  float mobileFreqScale = aspect < 1.0 ? mix(0.85, 1.0, clamp((aspect - 0.35) / 0.65, 0.0, 1.0)) : 1.0;
 
   float spreadDx = uSpread * abs(uv.x - pinchX);
   float baseT = iTime * uSpeed;
