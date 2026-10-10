@@ -408,9 +408,8 @@ export default function StoryNetwork({ paperCards = false }) {
         <svg id="paths-svg" aria-hidden="true" style={{ opacity: 0, pointerEvents: "none" }}></svg>
         <div className="mascot" id="mascot" aria-hidden="true"><span className="dot"></span></div>
 
-        <div className="brain-hub">
-          <BrainHub />
-        </div>
+        {/* Brain Hub Node */}
+        <BrainHub />
 
         <div className="story-rows" id="story-rows">
           {rows.map((row, rowIdx) => (

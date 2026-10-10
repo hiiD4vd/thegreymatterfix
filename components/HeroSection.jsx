@@ -4,11 +4,10 @@ export default function HeroSection() {
   return (
     <section className="hero">
       <div className="hero-inner-wrap">
-        <span className="hero-eyebrow">A series of short films</span>
+        <span className="hero-eyebrow">A SERIES OF SHORT FILMS</span>
 
         <div className="lockup-nestled">
-          <h1 className="nestled-main">THE GREY</h1>
-          <span className="nestled-accent">Matter</span>
+          <h1 className="nestled-main">THE GREY MATTER</h1>
         </div>
 
         <p className="hero-lede">

@@ -30,9 +30,19 @@ export default function StoryBox({ story, onBoxRef, onSelect }) {
     <CardContainer containerClass="story-card-wrapper" className="story-card-3d-wrap">
       <CardBody
         className="story-box story-card-3d-body in-view"
-        style={{ "--box-color": story.color }}
         ref={setBoxRefs}
       >
+        <div className="ambient-glow-wrapper">
+          {story.thumbnail && (
+            <Image
+              src={story.thumbnail}
+              alt=""
+              fill
+              className="ambient-glow"
+              priority={false}
+            />
+          )}
+        </div>
         <div
           className="story-card-inner"
           data-story-id={story.id}
