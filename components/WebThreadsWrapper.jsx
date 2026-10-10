@@ -13,16 +13,18 @@ export default function WebThreadsWrapper() {
   });
 
   // Default initial position:
-  // Desktop: 0.32 (sesuai hero desktop yang tinggi & ditarik ke atas)
-  // Mobile: 0.70 (baseline akurat posisi otak di layar HP)
+  // Dynamically estimated based on viewport height, then refined by #brain-anchor
   const [position, setPosition] = useState(() => {
     if (typeof window !== "undefined") {
-      const mobile = window.innerWidth <= 768;
-      if (!mobile) return 0.32;
       const h = window.innerHeight || 800;
-      return h >= 900 ? 0.71 : (h >= 750 ? 0.69 : 0.64);
+      const w = window.innerWidth || 1200;
+      if (w <= 768) {
+        return h >= 900 ? 0.71 : (h >= 750 ? 0.69 : 0.64);
+      }
+      // Desktop / laptop initial estimate
+      return h >= 900 ? 0.66 : (h >= 700 ? 0.62 : 0.50);
     }
-    return 0.32;
+    return 0.55;
   });
 
   useEffect(() => {
@@ -31,13 +33,8 @@ export default function WebThreadsWrapper() {
       const mobile = window.innerWidth <= 768;
       setIsMobile(mobile);
 
-      // DESKTOP: Selalu 100% terkunci di 0.32 (tidak disentuh sama sekali)
-      if (!mobile) {
-        setPosition(0.32);
-        return;
-      }
-
-      // MOBILE & TABLET: Cari elemen otak (#brain-anchor) dan hitung titik tengahnya
+      // Cari elemen otak (#brain-anchor) dan posisikan pusat cahaya (uPosition)
+      // tepat di tengah-tengah otak pada SEMUA ukuran layar (Desktop, Tablet, Mobile)
       const anchor = document.getElementById("brain-anchor");
       const h = window.innerHeight;
 
@@ -47,17 +44,22 @@ export default function WebThreadsWrapper() {
         if (rect.height > 10) {
           const brainCenterDocY = rect.top + window.scrollY + rect.height / 2;
           const pos = 1.0 - (brainCenterDocY / h);
-          // Batasi rentang wajar mobile (0.45 - 0.85)
-          const clampedPos = Math.max(0.45, Math.min(0.85, pos));
+          // Batasi rentang wajar (0.20 - 0.85)
+          const clampedPos = Math.max(0.20, Math.min(0.85, pos));
           setPosition(Number(clampedPos.toFixed(4)));
           return;
         }
       }
 
-      // Fallback prediktif berbasis tinggi viewport jika anchor belum siap
+      // Fallback prediktif jika elemen anchor belum ter-mount
       if (h > 0) {
-        const fallbackPos = h >= 900 ? 0.71 : (h >= 750 ? 0.69 : 0.64);
-        setPosition(fallbackPos);
+        if (mobile) {
+          const fallbackPos = h >= 900 ? 0.71 : (h >= 750 ? 0.69 : 0.64);
+          setPosition(fallbackPos);
+        } else {
+          const fallbackPos = h >= 900 ? 0.66 : (h >= 700 ? 0.62 : 0.50);
+          setPosition(fallbackPos);
+        }
       }
     };
 
@@ -102,7 +104,7 @@ export default function WebThreadsWrapper() {
         width: "100vw",
         height: "100vh",
         zIndex: 0,
-        background: "#12172b",
+        background: "transparent",
         pointerEvents: "none",
         overflow: "hidden",
         WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 60%, transparent 100%)",
@@ -110,10 +112,10 @@ export default function WebThreadsWrapper() {
       }}
     >
       <WebThreads
-        color1="#E8A33D"
-        color2="#ffd166"
-        color3="#fff8e0"
-        backgroundColor="#12172b"
+        color1="#E8A33D" // Kuning tua
+        color2="#ffd166" // Kuning cerah
+        color3="#ff8a66"
+        backgroundColor="transparent"
         threadCount={6}
         speed={0.18}
         frequency={isMobile ? 3.6 : 3.8}

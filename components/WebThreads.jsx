@@ -142,9 +142,9 @@ void main() {
     vec3 ink = mix(vec3(0.9), pigment, 0.82 + coverage * 0.18);
     fragColor = vec4(mix(uBackgroundColor, ink, coverage), 1.0);
   } else {
-    // Render solid: blend background color dengan thread — tidak ada alpha compositing issue
-    vec3 threadBlend = mix(uBackgroundColor, col, clamp(gsum * uBrightness, 0.0, 1.0) * uOpacity);
-    fragColor = vec4(threadBlend, 1.0);
+    // Render with true alpha transparency so CSS backgrounds (like gradients) can show through
+    float finalAlpha = clamp(gsum * uBrightness, 0.0, 1.0) * uOpacity;
+    fragColor = vec4(col, finalAlpha);
   }
 }
 `;
