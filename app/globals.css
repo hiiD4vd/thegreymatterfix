@@ -7,15 +7,15 @@ html {
    THE GREY MATTER â€” design tokens
    ========================================================================== */
 :root {
-  --bg: #12172b;
-  --bg-deep: #0b0e1c;
-  --bg-soft: #1a2140;
-  --ink: #f3eee3;
-  --ink-dim: #b9bdd1;
-  --ink-faint: #7d829c;
-  --signal: #ff6b4a;
-  --line: rgba(243, 238, 227, 0.1);
-  --line-strong: rgba(243, 238, 227, 0.22);
+  --bg: #0B1021; /* Deep dark blue */
+  --bg-deep: #040714;
+  --bg-soft: #1A2542;
+  --ink: #fdf5e6; /* Off-white text */
+  --ink-dim: #9fb3d6; /* Light blue-ish grey for dim text */
+  --ink-faint: #5a6e96;
+  --signal: #ff6b4a; /* Keep signal orange for contrast */
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.18);
 
   --font-display: "Inter", -apple-system, sans-serif;
   --font-script: "Alex Brush", cursive;
@@ -51,17 +51,14 @@ a { color: inherit; }
   clip: rect(0 0 0 0); white-space: nowrap;
 }
 
-/* subtle noise/vignette so the flat navy never looks like a plain fill */
+/* subtle noise/vignette */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background:
-    radial-gradient(ellipse 900px 500px at 50% -5%, rgba(255, 107, 74, 0.10), transparent 60%),
-    radial-gradient(ellipse 700px 500px at 90% 30%, rgba(47, 165, 160, 0.08), transparent 60%),
-    radial-gradient(ellipse 700px 500px at 5% 70%, rgba(139, 126, 200, 0.08), transparent 60%);
+  background: transparent;
 }
 
 /* ==========================================================================
@@ -95,7 +92,7 @@ body::before {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background: #12172b;
+  background-color: transparent;
   overflow-x: hidden;
 }
 
@@ -128,18 +125,18 @@ body::before {
 .hero-eyebrow {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.16em;
+  font-family: "Inter", sans-serif; /* Clean sans-serif like GRASS-FED */
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.4em; /* Sangat renggang seperti GRASS-FED */
   text-transform: uppercase;
-  color: var(--signal);
-  margin-bottom: 6px;
-  align-self: flex-start; /* hanya eyebrow yg rata kiri */
+  color: var(--ink-dim);
+  margin-bottom: 12px;
+  opacity: 0.9;
+  align-self: center; /* Ditengahin seperti referensi */
 }
-
-/* garis dekoratif dihapus */
 
 /* ==========================================================================
    Nestled Overlay Typographic Lockup
@@ -149,19 +146,21 @@ body::before {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 6px;
+  margin-bottom: 16px;
+  width: 100%;
 }
 
 .nestled-main {
-  font-family: var(--font-display);
-  font-size: clamp(3.8rem, 9.5vw, 6.6rem);
-  font-weight: 900;
-  letter-spacing: -0.045em;
-  line-height: 0.85;
+  font-family: 'Edo', sans-serif; /* Font bertekstur kasar persis PREMIUM */
+  font-size: clamp(4rem, 14vw, 11rem); /* Sangat besar */
+  font-weight: normal;
+  letter-spacing: 0.04em;
+  line-height: 1;
   margin: 0;
-  color: #ffffff;
+  color: var(--ink);
   text-transform: uppercase;
-  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); /* Kembalikan shadow karena bg gelap */
+  text-align: center;
 }
 
 .nestled-accent {
@@ -319,7 +318,7 @@ body::before {
    ========================================================================== */
 .network-pull-wrap {
   pointer-events: auto;
-  margin-top: clamp(-160px, -17vh, -200px);
+  margin-top: clamp(-200px, -17vh, -160px);
 }
 
 
@@ -468,11 +467,10 @@ body::before {
 }
 
 .story-box.story-card-3d-body {
-  --box-color: var(--signal);
   position: relative;
   display: block;
   width: 100%;
-  background: #080c18;
+  background: #0b0e14; /* Dark minimal base color */
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 24px;
   padding: 24px 24px 22px;
@@ -480,7 +478,29 @@ body::before {
   transform-style: preserve-3d;
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.ambient-glow-wrapper {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+  transform: translateZ(0); /* push to back without breaking 3d */
+}
+
+.ambient-glow {
+  object-fit: cover;
+  filter: blur(40px) saturate(180%) brightness(0.8);
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(1.3); /* scale up to avoid blurry edges showing background */
+}
+
+.story-card-wrapper:hover .ambient-glow {
+  opacity: 1;
 }
 
 .story-box.in-view {
@@ -492,10 +512,9 @@ body::before {
 .story-row:nth-child(odd) .story-box:last-child { margin-top: 34px; }
 
 .story-card-wrapper:hover .story-box.story-card-3d-body {
-  border-color: rgba(255, 255, 255, 0.22);
-  box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.85), 0 0 25px -5px var(--box-color);
+  box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.85); /* Cuma efek bayangan saat dihover */
 }
-
+/* Base Text colors to contrast with colored background */
 .story-card-inner {
   display: flex;
   flex-direction: column;
@@ -505,6 +524,8 @@ body::before {
   color: var(--ink);
   transform-style: preserve-3d;
   cursor: pointer;
+  position: relative;
+  z-index: 1; /* Keep content above the ambient glow */
 }
 
 /* Header */
@@ -524,8 +545,12 @@ body::before {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--ink-dim);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 4px 8px;
+  border-radius: 4px;
   margin-bottom: 8px;
+  align-self: flex-start;
 }
 
 .story-cat-dot {
@@ -549,7 +574,7 @@ body::before {
 .story-card-blurb {
   font-family: var(--font-body);
   font-size: 0.875rem;
-  color: #94a3b8;
+  color: rgba(255, 255, 255, 0.9);
   margin: 0;
   line-height: 1.45;
 }
@@ -1768,10 +1793,10 @@ body.transitioning .site-footer {
   width: 100%;
   max-width: 960px;
   max-height: 90vh;
-  background: #070a14;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: #fff;
+  border: none;
   border-radius: 28px;
-  box-shadow: 0 35px 90px -20px rgba(0, 0, 0, 0.95), 0 0 55px -10px var(--story-color);
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -2207,4 +2232,326 @@ body.transitioning .site-footer {
   display: flex;
   flex-direction: column;
   gap: 32px;
+}/* Preloader */
+.preloader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #050505;
+  color: #fff;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+}
+
+.preloader-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.preloader-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.4) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: pulse-glow 3s infinite alternate;
+}
+
+.preloader-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+
+/* Siena's exact button CSS */
+.siena-btn-w {
+  z-index: 3;
+  pointer-events: auto;
+  background-color: transparent;
+  justify-content: center;
+  align-items: center;
+  width: 142px;
+  height: 44px;
+  display: flex;
+  position: absolute;
+  bottom: 10vh;
+  cursor: pointer;
+  opacity: 0;
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.siena-btn-w:hover {
+  transform: scale(0.96);
+}
+
+.preloader-v2 {
+  position: absolute;
+  bottom: 10vh;
+  left: calc(50% + 84px);
+  min-width: 142px;
+  height: 44px;
+  border: 1px solid rgba(255,255,255,.75);
+  background: transparent;
+  color: #fff;
+  font: 600 11px/1 var(--font-mono);
+  letter-spacing: .12em;
+  cursor: pointer;
+}
+.preloader-v2:hover { background: #fff; color: #000; }
+@media (max-width: 520px) {
+  .siena-btn-w { bottom: calc(10vh + 26px); }
+  .preloader-v2 { bottom: calc(10vh - 26px); left: 50%; transform: translateX(-50%); }
+}
+
+.siena-btn-col {
+  z-index: 2;
+  flex: none;
+  justify-content: center;
+  align-items: center;
+  width: 93px;
+  height: 42px;
+  display: flex;
+  position: relative;
+}
+
+.siena-btn-col.last {
+  aspect-ratio: 1;
+  width: 42px;
+  height: 42px;
+}
+
+.siena-text-w {
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  display: flex;
+  position: absolute;
+  color: white;
+}
+
+.abs.siena-btn-bg {
+  z-index: -1;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.enter-text {
+  letter-spacing: 0.15em;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+}
+
+.enter-arrow {
+  width: 12px;
+  height: 12px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.siena-btn-w:hover .enter-arrow {
+  transform: translateX(4px);
+}
+
+@keyframes pulse-glow {
+  0% { filter: drop-shadow(0 0 10px rgba(255,255,255,0.1)); }
+  100% { filter: drop-shadow(0 0 30px rgba(255,255,255,0.3)); }
+}
+/* Hover states for the Siena Button */
+.siena-btn-w .btn-shape {
+  transition: fill 0.3s ease;
+}
+
+.siena-btn-w:hover .btn-shape {
+  fill: #ffffff;
+}
+
+.siena-btn-w .enter-text {
+  transition: color 0.3s ease;
+}
+
+.siena-btn-w:hover .enter-text {
+  color: #000000;
+}
+
+.siena-btn-w .btn-arrow {
+  transition: fill 0.3s ease;
+}
+
+.siena-btn-w:hover .btn-arrow {
+  fill: #000000;
+}
+
+/* --- SIENA DETAIL PAGE REPLICA --- */
+.siena-detail-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #fff;
+  display: block;
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.siena-detail-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #fff;
+  color: #000;
+}
+
+.siena-hero {
+  position: relative;
+  width: 100vw;
+  height: 80vh;
+  overflow: hidden;
+}
+
+.siena-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.1); /* For parallax */
+}
+
+.siena-back-btn {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  mix-blend-mode: difference;
+}
+
+.siena-back-btn svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease;
+  transform: rotate(90deg); /* points left */
+}
+
+.siena-back-btn:hover svg {
+  transform: rotate(90deg) translateY(-4px);
+}
+
+.siena-text-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 20px;
+  background: #fff;
+  color: #000;
+  text-align: center;
+}
+
+.siena-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  color: #000;
+}
+
+.siena-huge-title {
+  font-size: clamp(4rem, 10vw, 12rem);
+  font-weight: 400;
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin-bottom: 60px;
+  font-family: 'Times New Roman', Times, serif; /* Siena uses serif for huge titles */
+}
+
+.siena-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 80px;
+  margin: 0 auto 60px;
+}
+.siena-line {
+  width: 100%;
+  height: 1px;
+  background: #000;
+}
+
+.siena-video-w {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px 120px;
+  background: #fff;
+}
+.siena-video-inner {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  background: #000;
+}
+.siena-video-inner iframe,
+.siena-video-inner video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.siena-narrative-section {
+  max-width: 800px;
+  margin: 0 auto 120px;
+  padding: 0 40px;
+  text-align: left;
+  background: #fff;
+  color: #000;
+}
+.siena-narrative-title {
+  font-size: 2rem;
+  margin-bottom: 24px;
+  font-weight: 400;
+}
+.siena-narrative-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  opacity: 0.8;
 }

@@ -1,11 +1,13 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { STORIES } from "@/lib/stories";
 import StoryBox from "./StoryBox";
 import BrainHub from "./BrainHub";
 import MorphingExpandedCard from "./MorphingExpandedCard";
 
 export default function StoryNetworkWebGL({ paperCards = false }) {
+  const router = useRouter();
   const [activeSelection, setActiveSelection] = useState(null);
   const boxRefs = useRef([]);
   const networkRef = useRef(null);
@@ -31,7 +33,8 @@ export default function StoryNetworkWebGL({ paperCards = false }) {
 
       const hubRect = hub.getBoundingClientRect();
       const centerX = hubRect.left + hubRect.width / 2 - innerRect.left;
-      const startY = hubRect.bottom - innerRect.top - 2;
+      // Menarik titik awal garis ke atas sekitar 12% dari tinggi otak, agar garis terlihat keluar/tertancap langsung dari batang otak
+      const startY = hubRect.bottom - (hubRect.height * 0.12) - innerRect.top;
       const isMobile = innerRect.width < 768;
 
       // BATANG UTAMA (ROOT TRUNK): Dibuat pendek saja di awal, lalu langsung bercabang
@@ -208,31 +211,19 @@ export default function StoryNetworkWebGL({ paperCards = false }) {
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
 
-        // LAYER 1: Deep Atmospheric Ambient Glow (Halus, tidak menumpuk overblown)
+        // OPTIMIZED LAYER: Gabungan glow + core tanpa shadowBlur yang berlebihan
         trace();
-        ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${isMobile ? 0.30 : 0.45})`;
-        ctx.lineWidth = isMobile ? 2.2 : 3.4;
-        ctx.shadowBlur = isMobile ? 14 : 26;
-        ctx.shadowColor = `rgba(${r}, ${g}, ${b}, 0.85)`;
+        // Garis tebal agak transparan sebagai pengganti glow
+        ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, 0.4)`;
+        ctx.lineWidth = isMobile ? 3.0 : 5.0;
+        ctx.shadowBlur = 0; // Mematikan shadowBlur karena sangat berat di GPU
         ctx.stroke();
 
-        // LAYER 2: Vibrant Mid Corona
-        trace();
-        ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${isMobile ? 0.75 : 0.90})`;
-        ctx.lineWidth = isMobile ? 1.4 : 2.0;
-        ctx.shadowBlur = isMobile ? 6 : 12;
-        ctx.shadowColor = `rgba(${r}, ${g}, ${b}, 1.0)`;
-        ctx.stroke();
-
-        // LAYER 3: Hot Incandescent White-Gold Core
+        // Garis inti (Core) warna putih-kuning
         trace();
         ctx.strokeStyle = "rgba(255, 252, 240, 0.95)";
-        ctx.lineWidth = isMobile ? 0.9 : 1.2;
-        ctx.shadowBlur = 3;
-        ctx.shadowColor = "#ffffff";
+        ctx.lineWidth = isMobile ? 1.2 : 2.0;
         ctx.stroke();
-
-        ctx.shadowBlur = 0; // Reset blur
 
         // LAYER 4: Synaptic Impulse Pulse (Denyut energi halus yang meluncur dari otak ke kartu)
         const pulseSpeed = 0.34;
@@ -274,7 +265,7 @@ export default function StoryNetworkWebGL({ paperCards = false }) {
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.clearRect(0, 0, cssW, cssH);
 
-        // KUNCI UTAMA: Additive Blending ("lighter")
+        // KUNCI UTAMA: Additive Blending ("lighter") sangat cocok untuk background gelap
         ctx.globalCompositeOperation = "lighter";
 
         // 1. Central Spinal Cord Trunk (Batang utama sumsum tulang belakang di bawah otak)
@@ -282,14 +273,13 @@ export default function StoryNetworkWebGL({ paperCards = false }) {
           const rpt = paths[0]._rootPt;
           const jpt = paths[0]._junctionPt;
 
-          // Outer ambient spinal aura
+          // Outer ambient spinal aura (Tanpa shadowBlur)
           ctx.beginPath();
           ctx.moveTo(rpt.x, rpt.y);
           ctx.lineTo(jpt.x, jpt.y);
           ctx.strokeStyle = "rgba(232, 163, 61, 0.40)";
-          ctx.lineWidth = isMobile ? 8 : 14;
-          ctx.shadowBlur = isMobile ? 14 : 24;
-          ctx.shadowColor = "#E8A33D";
+          ctx.lineWidth = isMobile ? 10 : 16;
+          ctx.shadowBlur = 0;
           ctx.stroke();
 
           // Mid golden trunk
@@ -298,8 +288,6 @@ export default function StoryNetworkWebGL({ paperCards = false }) {
           ctx.lineTo(jpt.x, jpt.y);
           ctx.strokeStyle = "rgba(255, 209, 102, 0.85)";
           ctx.lineWidth = isMobile ? 4.2 : 6.8;
-          ctx.shadowBlur = isMobile ? 8 : 14;
-          ctx.shadowColor = "#ffd166";
           ctx.stroke();
 
           // Core hot white spine
@@ -308,8 +296,6 @@ export default function StoryNetworkWebGL({ paperCards = false }) {
           ctx.lineTo(jpt.x, jpt.y);
           ctx.strokeStyle = "rgba(255, 255, 245, 0.98)";
           ctx.lineWidth = isMobile ? 1.8 : 2.5;
-          ctx.shadowBlur = 4;
-          ctx.shadowColor = "#ffffff";
           ctx.stroke();
         }
 
@@ -419,19 +405,16 @@ export default function StoryNetworkWebGL({ paperCards = false }) {
       setActiveSelection(null);
       return;
     }
-    if (!rect) {
-      const idx = STORIES.findIndex((s) => s.id === story.id);
-      const el = boxRefs.current[idx];
-      rect = el
-        ? el.getBoundingClientRect()
-        : {
-            top: window.innerHeight / 2 - 150,
-            left: window.innerWidth / 2 - 200,
-            width: 400,
-            height: 300,
-          };
-    }
-    setActiveSelection({ story, originRect: rect });
+    rect ||= { left: window.innerWidth / 2 - 160, top: window.innerHeight / 2 - 100, width: 320, height: 200 };
+    const source = document.elementFromPoint(
+      rect.left + rect.width / 2,
+      rect.top + rect.height / 2
+    )?.closest(".story-card-3d-body")?.querySelector("img");
+    const image = source?.currentSrc || source?.src || story.thumbnail;
+    window.dispatchEvent(new CustomEvent("gm-story-transition-start", {
+      detail: { image, rect },
+    }));
+    window.setTimeout(() => router.push(`/story/${encodeURIComponent(story.id)}`), 280);
   };
 
   return (
@@ -464,9 +447,8 @@ export default function StoryNetworkWebGL({ paperCards = false }) {
           }}
         />
 
-        <div className="brain-hub">
-          <BrainHub />
-        </div>
+        {/* Brain Hub Node */}
+        <BrainHub />
 
         <div className="story-rows" id="story-rows">
           {rows.map((row, rowIdx) => (
