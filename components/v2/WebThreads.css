@@ -1,0 +1,14 @@
+.web-threads-container {
+  /* WebThreads container fill wrapper sepenuhnya */
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.web-threads-container canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
