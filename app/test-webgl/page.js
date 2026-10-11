@@ -1,8 +1,8 @@
 "use client";
 
-import WebThreadsWrapper from "@/components/WebThreadsWrapper";
-import StoryNetwork from "@/components/StoryNetwork"; 
-import HeroSection from "@/components/HeroSection";
+import WebThreadsWrapper from "@/components/v1/WebThreadsWrapper";
+import StoryNetwork from "@/components/v1/StoryNetwork";
+import HeroSection from "@/components/v1/HeroSection";
 
 export default function TestWebGLPage() {
   return (

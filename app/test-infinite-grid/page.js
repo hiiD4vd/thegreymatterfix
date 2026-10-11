@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import InfiniteGrid from "../../components/infinite-grid/InfiniteGrid";
-import { STORIES } from "../../lib/stories";
+import InfiniteGrid from "../../components/v1/infinite-grid/InfiniteGrid";
+import { STORIES } from "../../lib/v1/stories";
 
 export default function TestInfiniteGridPage() {
   return (

@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import WebThreadsWrapperTest from "@/components/testing/WebThreadsWrapperTest";
-import HeroSectionTest from "@/components/testing/HeroSectionTest";
-import StoryNetworkWebGLTest from "@/components/testing/StoryNetworkWebGLTest";
-import ColorLabHUD from "@/components/testing/ColorLabHUD";
-import { STORIES_TESTING } from "@/lib/stories-testing";
+import WebThreadsWrapperTest from "@/components/v1/testing/WebThreadsWrapperTest";
+import HeroSectionTest from "@/components/v1/testing/HeroSectionTest";
+import StoryNetworkWebGLTest from "@/components/v1/testing/StoryNetworkWebGLTest";
+import ColorLabHUD from "@/components/v1/testing/ColorLabHUD";
+import { STORIES_TESTING } from "@/lib/v1/stories-testing";
 
 // Palet Warna Referensi Narupa untuk 8 Kartu
 const NARUPA_STORY_PALETTE = {

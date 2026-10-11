@@ -1,5 +1,5 @@
-import PaperCards from "@/components/PaperCards";
-import HeroSection from "@/components/HeroSection";
+import PaperCards from "@/components/v1/PaperCards";
+import HeroSection from "@/components/v1/HeroSection";
 
 export const metadata = {
   title: "The Grey Matter - Vol. 01 - Card View",
