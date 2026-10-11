@@ -1,5 +1,5 @@
-import { STORIES } from "@/lib/stories";
-import { SIENA_ORIGINAL_HTML } from "@/lib/sienaOriginalHtml";
+import { STORIES } from "@/lib/v1/stories";
+import { SIENA_ORIGINAL_HTML } from "@/lib/v1/sienaOriginalHtml";
 
 const esc = (value = "") => String(value)
   .replaceAll("&", "&amp;")
@@ -9,16 +9,18 @@ const esc = (value = "") => String(value)
 
 export async function GET(request, { params }) {
   const { id } = await params;
-  const backHref = new URL(request.url).searchParams.get("from") === "v2" ? "/v2?return=map" : "/";
-  const story = STORIES.find((item) => item.id === id) || STORIES[0];
+  const backHref = "/v1";
+  const storyIndex = Math.max(0, STORIES.findIndex((item) => item.id === id));
+  const story = STORIES[storyIndex] || STORIES[0];
+  const nextStory = STORIES[(storyIndex + 1) % STORIES.length];
   const title = esc(story.title);
   const category = esc(story.category);
   const year = esc(story.year || "2024");
   const minutes = esc(story.minutes || "");
   const image = esc(story.thumbnail);
   const description = esc(story.description || story.blurb || "");
-  const detailQuery = new URL(request.url).searchParams.get("from") === "v2" ? "?from=v2" : "";
-  const indexItems = STORIES.map((item, index) => `<a href="/story/${esc(item.id)}${detailQuery}" target="_top"><span>${String(index + 1).padStart(2, "0")}</span>${esc(item.title)}</a>`).join("");
+  const detailQuery = "";
+  const indexItems = STORIES.map((item, index) => `<a href="/v1/story/${esc(item.id)}${detailQuery}" target="_top"><span>${String(index + 1).padStart(2, "0")}</span>${esc(item.title)}</a>`).join("");
 
   // Separate document: exact Siena HTML/CSS/runtime, no Grey Matter root layout.
   let html = SIENA_ORIGINAL_HTML
@@ -30,6 +32,7 @@ export async function GET(request, { params }) {
     .replace(/<div class="case-menu-tx">[\s\S]*?<\/div>/, `<div class="case-menu-tx">${description}</div>`)
     .replace(/<div data-after="EXPLORE" class="footagemenu-cta-tx smaller">5\/5<\/div>/, "")
     .replace(/href="\/work"/g, `href="${backHref}" target="_top"`)
+    .replace(/href="\/films\/[^"\s]+"/g, `href="/v1/story/${esc(nextStory.id)}" target="_top"`)
     .replace(/>All Work</gi, ">BACK TO MAP<")
     // All visible Siena identity in desktop + mobile navigation becomes Grey Matter.
     .replace(/SIENA(?:&nbsp;|\s)+FILM(?:&nbsp;|\s)+FOUNDATION\.?/gi, "THE GREY MATTER")
@@ -42,6 +45,7 @@ export async function GET(request, { params }) {
   html = `<!doctype html><html class="w-mod-js w-mod-ix"><head><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/siena-work-space.css"><link rel="stylesheet" href="/siena-out.css"><link rel="stylesheet" href="/siena-webflow.css"><style>
       html,body,.w,.pw.cs{background:radial-gradient(circle at 50% 25%,#2B4E7D 0%,#172A4D 48%,#0E1F3D 100%)!important}
       [data-gl=c],.canvas{background:#0E1F3D!important}
+      .cs-hero.bg-white,.s.bg-white{background:radial-gradient(circle at 50% 25%,#2B4E7D 0%,#172A4D 48%,#0E1F3D 100%)!important;color:#fdf5e6!important}
       .nav-link.logo .svg-logo{display:none!important}
       .nav-link.logo:after{content:'THE GREY MATTER';color:#fff;font:700 13px/1 Arial,sans-serif;letter-spacing:.12em;white-space:nowrap}
       /* User requested: no Siena footer mark or newsletter signup. */
