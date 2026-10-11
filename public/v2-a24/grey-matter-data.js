@@ -45,7 +45,7 @@
     text(item, '[data-film-field="starring"]', `EP. ${story.minutes}`);
     text(item, '[data-film-field="disc-art-url"]', story.art);
     text(item, '[data-film-field="disc-art-alt"]', `${story.title} artwork`);
-    item.querySelectorAll('[data-film-field="detail-url"]').forEach((link) => link.setAttribute("href", `/story/${story.id}?from=v2`));
+    item.querySelectorAll('[data-film-field="detail-url"]').forEach((link) => link.setAttribute("href", `/v2/story/${story.id}`));
     text(item, '[data-film-field="review-publication"]', story.category.toUpperCase());
     text(item, '[data-film-field="review-testimonial"]', story.blurb);
     text(item, '[data-film-field="review-stars"]', "");
@@ -56,7 +56,7 @@
     const story = stories[index];
     if (!story) { item.remove(); return; }
     const link = item.querySelector("a");
-    if (link) { link.href = `/story/${story.id}?from=v2`; link.dataset.filmScroll = story.title; }
+    if (link) { link.href = `/v2/story/${story.id}`; link.dataset.filmScroll = story.title; }
     const labels = item.querySelectorAll(".nav-dropdown__link-label");
     if (labels[0]) labels[0].textContent = story.title;
     if (labels[1]) labels[1].textContent = story.year;
@@ -70,7 +70,7 @@
   watch.innerHTML = '<span class="gm-watch-label">TONTON</span><span class="gm-watch-arrow"><svg viewBox="0 0 11 10" aria-hidden="true"><path d="M4.481.005a6.65 6.65 0 0 1 6.46 4.659c.078.229.08.479-.003.706C10.302 7.105 8.318 10 4.48 10V8.39c.941.127 2.922-.257 4.442-2.603H0V4.208h8.938c-.756-1.229-2.216-2.78-4.457-2.78V.006Z"/></svg></span><svg class="gm-watch-shape" viewBox="0 0 142 44" aria-hidden="true"><path d="M5 1h90c0 1 .6 3 3 3s3-2 3-3h36c0 3.2 2.667 4.144 4 4.216V39c-3.2 0-4 2.667-4 4h-35c0-1.333-.8-4-4-4s-4 2.667-4 4H5c0-3.6-2.667-4.167-4-4V5c3.2 0 4-2.667 4-4Z"/><path d="M98 4.5v34" stroke-dasharray="4"/></svg>';
   let active = first;
   watch.addEventListener("click", () => {
-    window.top.location.href = `/story/${active.id}?from=v2`;
+    window.top.location.href = `/v2/story/${active.id}`;
   });
   document.body.append(watch);
   document.addEventListener("discgallerychange", (event) => {
