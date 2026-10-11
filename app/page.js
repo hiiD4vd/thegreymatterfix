@@ -15,9 +15,9 @@ export default function HomePage() {
       <Preloader />
       
       <Grainient 
-        color1="#0B1021"
-        color2="#1A2542"
-        color3="#040714"
+        color1="#172A4D"
+        color2="#2B4E7D"
+        color3="#0E1F3D"
         grainAmount={0.06}
         grainScale={1.5}
         timeSpeed={0.3}
