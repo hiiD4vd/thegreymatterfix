@@ -1,7 +1,4 @@
 import "./globals.css";
-import SmoothScroll from "@/components/SmoothScroll";
-import GradualBlur from "@/components/GradualBlur";
-import StoryRouteCover from "@/components/StoryRouteCover";
 
 export const metadata = {
   title: "The Grey Matter - little stories about your brain",
@@ -27,23 +24,7 @@ export default function RootLayout({ children }) {
         />
         <link href="https://fonts.cdnfonts.com/css/edo" rel="stylesheet" />
       </head>
-      <body>
-        <SmoothScroll>{children}</SmoothScroll>
-        <StoryRouteCover />
-
-        {/* Gradual Blur persis seperti konfigurasi React Bits di bagian bawah layar */}
-        <GradualBlur
-          target="page"
-          position="bottom"
-          height="8rem"
-          strength={3}
-          divCount={4}
-          curve="bezier"
-          exponential={true}
-          opacity={1}
-          zIndex={50}
-        />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
