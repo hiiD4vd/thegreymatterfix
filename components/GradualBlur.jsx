@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState, useMemo } from 'react';
+import { usePathname } from 'next/navigation';
 import './GradualBlur.css';
 
 const DEFAULT_CONFIG = {
@@ -100,6 +101,7 @@ const useIntersectionObserver = (ref, shouldObserve = false) => {
 };
 
 function GradualBlur(props) {
+  const pathname = usePathname();
   const containerRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -203,6 +205,8 @@ function GradualBlur(props) {
       return () => clearTimeout(t);
     }
   }, [isVisible, animated, onAnimationComplete, duration]);
+
+  if (pathname === '/v2') return null;
 
   return (
     <div
