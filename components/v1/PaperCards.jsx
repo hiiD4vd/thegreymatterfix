@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { STORIES, CARD_MAP } from "@/lib/stories";
+import { STORIES, CARD_MAP } from "@/lib/v1/stories";
 import BrainHub from "./BrainHub";
 import MorphingExpandedCard from "./MorphingExpandedCard";
 
@@ -51,7 +51,7 @@ function PaperCard({ story, onBoxRef, onSelect }) {
 
   return (
     <a
-      href={`/story/${encodeURIComponent(story.id)}`}
+      href={`/v1/story/${encodeURIComponent(story.id)}`}
       className="story-box paper-card-style"
       style={{ "--box-color": story.color }}
       data-story-id={story.id}

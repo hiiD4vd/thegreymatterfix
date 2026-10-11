@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { STORIES } from "@/lib/stories";
+import { STORIES } from "@/lib/v1/stories";
 import StoryBox from "./StoryBox";
 import BrainHub from "./BrainHub";
 import MorphingExpandedCard from "./MorphingExpandedCard";
@@ -414,7 +414,7 @@ export default function StoryNetworkWebGL({ paperCards = false }) {
     window.dispatchEvent(new CustomEvent("gm-story-transition-start", {
       detail: { image, rect },
     }));
-    window.setTimeout(() => router.push(`/story/${encodeURIComponent(story.id)}`), 280);
+    window.setTimeout(() => router.push(`/v1/story/${encodeURIComponent(story.id)}`), 280);
   };
 
   return (

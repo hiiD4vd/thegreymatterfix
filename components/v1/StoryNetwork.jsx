@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { STORIES } from "@/lib/stories";
+import { STORIES } from "@/lib/v1/stories";
 import StoryBox from "./StoryBox";
 import BrainHub from "./BrainHub";
 import MorphingExpandedCard from "./MorphingExpandedCard";

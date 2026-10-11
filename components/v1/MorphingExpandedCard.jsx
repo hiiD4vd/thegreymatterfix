@@ -4,8 +4,8 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 
 import gsap from "gsap";
-import { STORIES } from "@/lib/stories";
-import { renderSienaHtml } from "@/lib/sienaRender";
+import { STORIES } from "@/lib/v1/stories";
+import { renderSienaHtml } from "@/lib/v1/sienaRender";
 
 export default function MorphingExpandedCard({ story, originRect, onClose, onSelectStory }) {
   const [mounted, setMounted] = useState(() => typeof window !== "undefined");

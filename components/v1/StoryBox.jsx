@@ -1,7 +1,7 @@
 "use client";
 import { useRef } from "react";
 import Image from "next/image";
-import { CardContainer, CardBody, CardItem } from "@/components/ui/card-3d";
+import { CardContainer, CardBody, CardItem } from "@/components/v1/ui/card-3d";
 
 export default function StoryBox({ story, onBoxRef, onSelect }) {
   const cardBodyRef = useRef(null);
