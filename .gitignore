@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local experiments
+.hermes/
+scratch.py
+scratch/
+script.py
+script2.py
+script3.py
