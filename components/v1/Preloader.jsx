@@ -3,25 +3,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { gsap } from "gsap";
-import { STORIES } from "@/lib/stories";
+import { STORIES } from "@/lib/v1/stories";
 
 export default function Preloader({ onComplete }) {
   const router = useRouter();
   const [isLoaded, setIsLoaded] = useState(false);
   const [progress, setProgress] = useState(0);
-  // null = belum cek session. Jangan render overlay dulu, biar balik dari detail
-  // tidak sempat flash halaman preload sebelum sessionStorage terbaca.
-  const [skipped, setSkipped] = useState(null);
   const containerRef = useRef(null);
   const buttonRef = useRef(null);
 
   useEffect(() => {
-    if (sessionStorage.getItem("gm-preloader-complete") === "1") {
-      setSkipped(true);
-      return;
-    }
-
-    setSkipped(false);
     document.body.style.overflow = "hidden";
     let cancelled = false;
 
@@ -39,7 +30,7 @@ export default function Preloader({ onComplete }) {
     const waitForAssets = async () => {
       // Explicit manifest: do not wait for browser lazy-images in document.images.
       // They may never request until after ENTER, which caused the 61% deadlock.
-      const assets = ["/brain.glb", "/brain-custom.png", ...STORIES.map((story) => story.thumbnail)].filter(Boolean);
+      const assets = ["/brain-custom.png", ...STORIES.map((story) => story.thumbnail)].filter(Boolean);
       let done = 0;
       const tick = () => {
         done += 1;
@@ -67,21 +58,18 @@ export default function Preloader({ onComplete }) {
   }, []);
 
   const handleVersion = (version) => {
-    sessionStorage.setItem("gm-preloader-complete", "1");
     document.body.style.overflow = "";
-    if (version === 2) router.push("/v2");
-    else {
-    
-    // Animate out the preloader
+    if (version === 2) {
+      router.push("/v2");
+      return;
+    }
+
     gsap.to(containerRef.current, {
       yPercent: -100,
       duration: 1.2,
       ease: "power4.inOut",
-      onComplete: () => {
-        if (onComplete) onComplete();
-      },
+      onComplete: () => router.push("/v1"),
     });
-    }
   };
 
   const playHoverSound = () => {
@@ -103,8 +91,6 @@ export default function Preloader({ onComplete }) {
       console.log("Audio play failed:", e);
     }
   };
-
-  if (skipped !== false) return null;
 
   return (
     <div ref={containerRef} className="preloader-wrapper">
