@@ -1,8 +1,30 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "The Grey Matter - little stories about your brain",
-  description: "Little animated stories exploring how the brain reacts to drugs, technology, stress and more.",
+  metadataBase: new URL("https://www.the-grey-matter.com"),
+  title: "The Grey Matter — A Series of Short Films",
+  description: "Little stories about your brain, and the things that shape it.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "The Grey Matter",
+    title: "The Grey Matter — A Series of Short Films",
+    description: "Little stories about your brain, and the things that shape it.",
+    images: [{
+      url: "/og-grey-matter.jpg",
+      width: 1200,
+      height: 630,
+      alt: "The Grey Matter — a series of short films about the brain",
+    }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "The Grey Matter — A Series of Short Films",
+    description: "Little stories about your brain, and the things that shape it.",
+    images: ["/og-grey-matter.jpg"],
+  },
+  robots: { index: true, follow: true },
 };
 
 export const viewport = {
