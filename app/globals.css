@@ -2317,8 +2317,8 @@ body.transitioning .site-footer {
 }
 .preloader-v2:hover { background: #fff; color: #000; }
 @media (max-width: 520px) {
-  .siena-btn-w { bottom: calc(10vh + 26px); }
-  .preloader-v2 { bottom: calc(10vh - 26px); left: 50%; transform: translateX(-50%); }
+  .siena-btn-w { bottom: calc(17vh + 26px); }
+  .preloader-v2 { bottom: calc(17vh - 26px); left: 50%; transform: translateX(-50%); }
 }
 
 .siena-btn-col {
